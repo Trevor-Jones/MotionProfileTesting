@@ -24,9 +24,9 @@
 package org.usfirst.frc.team955.robot;
 
 
-import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Notifier;
-import com.ctre.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 
 public class MotionProfileExample {
 

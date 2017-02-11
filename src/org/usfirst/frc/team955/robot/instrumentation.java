@@ -23,7 +23,8 @@
  * 
  */
 package org.usfirst.frc.team955.robot;
-import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class instrumentation {
 
@@ -77,16 +78,16 @@ public class instrumentation {
 				System.out.format("\n");
 			}
 			/* every loop, print our values */
-			System.out.format("%-9s\t", status1.topBufferCnt);
-			System.out.format("%-9s\t", status1.btmBufferCnt);
-			System.out.format("%-9s\t", StrOutputEnable(status1.outputEnable));
-			System.out.format("%-9s\t", (status1.hasUnderrun ? "1" : ""));
-			System.out.format("%-9s\t", (status1.isUnderrun ? "1" : ""));
-			System.out.format("%-9s\t", (status1.activePointValid ? "1" : ""));
-			System.out.format("%-9s\t", (status1.activePoint.isLastPoint ? "1" : ""));
-			System.out.format("%-9s\t", (status1.activePoint.velocityOnly ? "1" : ""));
-			System.out.format("%-9s\t", round(status1.activePoint.position));
-			System.out.format("%-9s\t", round(status1.activePoint.velocity));
+			SmartDashboard.putNumber("topBufferCount", status1.topBufferCnt);
+			SmartDashboard.putNumber("btmBufferCnt", status1.btmBufferCnt);
+			SmartDashboard.putString("Output Enable", StrOutputEnable(status1.outputEnable));
+			SmartDashboard.putNumber("hasunderrun", (status1.hasUnderrun ? 1 : 0));
+			SmartDashboard.putNumber("isunderrun", (status1.isUnderrun ? 1 : 0));
+			SmartDashboard.putNumber("active valid", (status1.activePointValid ? 1 : 0));
+			SmartDashboard.putNumber("is last", (status1.activePoint.isLastPoint ? 1 : 0));
+			SmartDashboard.putNumber("vel only", (status1.activePoint.velocityOnly ? 1 : 0));
+			SmartDashboard.putNumber("position", (status1.activePoint.position));
+			SmartDashboard.putNumber("position", (status1.activePoint.velocity));
 
 			System.out.format("\n");
 		}
