@@ -27,6 +27,9 @@
 package org.usfirst.frc.team955.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import core.PathPlanner;
+import core.PathPlanner.LeftRightProfile;
+import core.WaypointSequence;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -42,8 +45,10 @@ public class Robot extends IterativeRobot {
 	CANTalon _right_follower_talon = new CANTalon(4);
 
 	/** some example logic on how one can manage an MP */
-	MotionProfileExample _left_example = new MotionProfileExample(_left_talon);
-	MotionProfileExample _right_example = new MotionProfileExample(_right_talon);
+	MotionProfileExample _left_example = new MotionProfileExample(_left_talon, true);
+	MotionProfileExample _right_example = new MotionProfileExample(_right_talon, false);
+	
+	PathPlanner planner = new PathPlanner(0.01, 4, 25, 3, 2);
 	
 	/** joystick for testing */
 	Joystick _joy= new Joystick(0);
@@ -61,8 +66,20 @@ public class Robot extends IterativeRobot {
 		_right_talon.setFeedbackDevice(CANTalon.FeedbackDevice.QuadEncoder);
 		_right_talon.reverseSensor(false); /* keep sensor and motor in phase */
 		_right_follower_talon.changeControlMode(TalonControlMode.Follower);
-		
 	}
+	
+	public void teleopInit() {
+		WaypointSequence p = new WaypointSequence(10);
+		p.addWaypoint(new WaypointSequence.Waypoint(0, 0, 0));
+		p.addWaypoint(new WaypointSequence.Waypoint(7, 4, Math.PI / 6));
+		
+		LeftRightProfile profile = planner.generatePath(p);
+		
+		GeneratedMotionProfile.leftPoints = profile.left;
+		GeneratedMotionProfile.rightPoints = profile.right;
+		GeneratedMotionProfile.kNumPoints = profile.left.length;
+	}
+	
 	/**  function is called periodically during operator control */
     public void teleopPeriodic() {
 		/* get buttons */

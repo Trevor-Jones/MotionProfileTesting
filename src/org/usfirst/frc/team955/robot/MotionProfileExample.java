@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 
 public class MotionProfileExample {
-
+	
 	/**
 	 * The status of the motion profile executer and buffer inside the Talon.
 	 * Instead of creating a new one every time we call getMotionProfileStatus,
@@ -80,6 +80,8 @@ public class MotionProfileExample {
 	 */
 	private static final int kNumLoopsTimeout = 10;
 	
+	private boolean left;
+	
 	/**
 	 * Lets create a periodic task to funnel our trajectory points into our talon.
 	 * It doesn't need to be very accurate, just needs to keep pace with the motion
@@ -101,8 +103,9 @@ public class MotionProfileExample {
 	 * @param talon
 	 *            reference to Talon object to fetch motion profile status from.
 	 */
-	public MotionProfileExample(CANTalon talon) {
+	public MotionProfileExample(CANTalon talon, boolean left) {
 		_talon = talon;
+		this.left = left;
 		/*
 		 * since our MP is 10ms per point, set the control frame rate and the
 		 * notifer to half that
@@ -234,7 +237,11 @@ public class MotionProfileExample {
 	/** Start filling the MPs to all of the involved Talons. */
 	private void startFilling() {
 		/* since this example only has one talon, just update that one */
-		startFilling(GeneratedMotionProfile.Points, GeneratedMotionProfile.kNumPoints);
+		if(left) {
+			startFilling(GeneratedMotionProfile.leftPoints, GeneratedMotionProfile.kNumPoints);	
+		} else {
+			startFilling(GeneratedMotionProfile.rightPoints, GeneratedMotionProfile.kNumPoints);
+		}
 	}
 
 	private void startFilling(double[][] profile, int totalCnt) {
