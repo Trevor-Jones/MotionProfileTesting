@@ -27,10 +27,6 @@
 package org.usfirst.frc.team955.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
-import core.GenerateThread;
-import core.PathPlanner;
-import core.PathPlanner.LeftRightProfile;
-import core.WaypointSequence;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -49,7 +45,7 @@ public class Robot extends IterativeRobot {
 	MotionProfileExample _left_example = new MotionProfileExample(_left_talon, true);
 	MotionProfileExample _right_example = new MotionProfileExample(_right_talon, false);
 	
-	PathPlanner planner = new PathPlanner(0.01, 4, 25, 3, 2);
+	PathPlanner planner = new PathPlanner(0.025, 2, 7, 2);
 	
 	/** joystick for testing */
 	Joystick _joy= new Joystick(0);
@@ -147,8 +143,7 @@ public class Robot extends IterativeRobot {
 
 
 		if( (btns[1] == true) && (_btnsLast[1] == false) ) {
-			GenerateThread thread = new GenerateThread();
-			thread.start();
+			planner.generateProfileFromDistances(20000, 2, 5);
 		}
 		
 		/* save buttons states for on-press detection */
