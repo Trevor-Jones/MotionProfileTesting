@@ -27,6 +27,7 @@
 package org.usfirst.frc.team955.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import core.GenerateThread;
 import core.PathPlanner;
 import core.PathPlanner.LeftRightProfile;
 import core.WaypointSequence;
@@ -69,19 +70,14 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void teleopInit() {
-		WaypointSequence p = new WaypointSequence(10);
-		p.addWaypoint(new WaypointSequence.Waypoint(0, 0, 0));
-		p.addWaypoint(new WaypointSequence.Waypoint(7, 4, Math.PI / 6));
 		
-		LeftRightProfile profile = planner.generatePath(p);
-		
-		GeneratedMotionProfile.leftPoints = profile.left;
-		GeneratedMotionProfile.rightPoints = profile.right;
-		GeneratedMotionProfile.kNumPoints = profile.left.length;
 	}
 	
 	/**  function is called periodically during operator control */
     public void teleopPeriodic() {
+    	
+    	
+    	
 		/* get buttons */
     	_left_follower_talon.set(7);
     	_right_follower_talon.set(3);
@@ -106,6 +102,8 @@ public class Robot extends IterativeRobot {
 		_right_talon.reverseSensor(true);
 		_right_talon.reverseOutput(true);
 		
+		SmartDashboard.putNumber("numTotalPointsLeft", GeneratedMotionProfile.kNumPoints);
+		
 		if (btns[5] == false) { /* Check button 5 (top left shoulder on the logitech gamead). */
 			/*
 			 * If it's not being pressed, just do a simple drive.  This
@@ -116,7 +114,7 @@ public class Robot extends IterativeRobot {
 			_left_talon.changeControlMode(TalonControlMode.Voltage);
 			_left_talon.set(12.0 * leftYjoystick);
 			_right_talon.changeControlMode(TalonControlMode.Voltage);
-			_right_talon.set(12.0 * leftYjoystick);
+			_right_talon.set(-12.0 * leftYjoystick);
 
 			_left_example.reset();
 			_right_example.reset();
@@ -147,6 +145,12 @@ public class Robot extends IterativeRobot {
 			}
 		}
 
+
+		if( (btns[1] == true) && (_btnsLast[1] == false) ) {
+			GenerateThread thread = new GenerateThread();
+			thread.start();
+		}
+		
 		/* save buttons states for on-press detection */
 		for(int i=1;i<10;++i)
 			_btnsLast[i] = btns[i];

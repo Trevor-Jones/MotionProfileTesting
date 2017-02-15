@@ -1,6 +1,10 @@
 package core;
 
+import org.usfirst.frc.team955.robot.GeneratedMotionProfile;
+
+import core.PathPlanner.LeftRightProfile;
 import core.Trajectory.Segment;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class PathPlanner {
 	
@@ -54,4 +58,6 @@ public class PathPlanner {
 		LeftRightProfile profile = new LeftRightProfile(leftPosVel, rightPosVel);
 		return profile;
 	}
+	
+	
 }

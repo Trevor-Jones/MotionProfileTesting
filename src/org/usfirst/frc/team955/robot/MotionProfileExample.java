@@ -180,6 +180,7 @@ public class MotionProfileExample {
 			switch (_state) {
 				case 0: /* wait for application to tell us to start an MP */
 					if (_bStart) {
+						_talon.setEncPosition(0);
 						_bStart = false;
 	
 						_setValue = CANTalon.SetValueMotionProfile.Disable;
