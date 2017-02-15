@@ -133,18 +133,26 @@ public class PathPlanner {
 	}
 	
 	private void generateProfileArray(double[][] leftRightPosVel) {
-		leftProfile = new double[leftRightPosVel.length][3];
-		rightProfile = new double[leftRightPosVel.length][3];
+		leftProfile = new double[leftRightPosVel.length+1][3];
+		rightProfile = new double[leftRightPosVel.length+1][3];
 		
-		for(int i = 0; i < leftRightPosVel.length; i++) {
-			leftProfile[i][0] = leftRightPosVel[i][0];
-			leftProfile[i][1] = leftRightPosVel[i][1];
+		for(int i = 1; i < leftRightPosVel.length+1; i++) {
+			leftProfile[i][0] = leftRightPosVel[i-1][0];
+			leftProfile[i][1] = leftRightPosVel[i-1][1];
 			leftProfile[i][2] = dt;
 			
-			rightProfile[i][0] = leftRightPosVel[i][2];
-			rightProfile[i][1] = leftRightPosVel[i][3];
+			rightProfile[i][0] = leftRightPosVel[i-1][2];
+			rightProfile[i][1] = leftRightPosVel[i-1][3];
 			rightProfile[i][2] = dt;
 		}
+		leftProfile[0][0] = 0;
+		leftProfile[0][1] = 0;
+		leftProfile[0][2] = dt;
+		
+		rightProfile[0][0] = 0;
+		rightProfile[0][1] = 0;
+		rightProfile[0][2] = dt;
+		
 	}
 	
 	public void generateProfileFromDistances(int numPoints, double offset, double distance) {
@@ -154,6 +162,7 @@ public class PathPlanner {
 		SmartDashboard.putNumber("TimeToGenerate", (System.currentTimeMillis() - time));
 		GeneratedMotionProfile.leftPoints = leftProfile;
 		GeneratedMotionProfile.rightPoints = rightProfile;
+		GeneratedMotionProfile.kNumPoints = leftProfile.length;
 	}
 	
 	public double[][] getLeftProfile() {

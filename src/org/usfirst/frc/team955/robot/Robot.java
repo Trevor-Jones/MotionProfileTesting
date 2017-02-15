@@ -45,7 +45,7 @@ public class Robot extends IterativeRobot {
 	MotionProfileExample _left_example = new MotionProfileExample(_left_talon, true);
 	MotionProfileExample _right_example = new MotionProfileExample(_right_talon, false);
 	
-	PathPlanner planner = new PathPlanner(0.025, 2, 7, 2);
+	PathPlanner planner = new PathPlanner(0.025, 6, 8, 2);
 	
 	/** joystick for testing */
 	Joystick _joy= new Joystick(0);
@@ -88,13 +88,13 @@ public class Robot extends IterativeRobot {
 		/* call this periodically, and catch the output.  Only apply it if user wants to run MP. */
 		_left_example.control();
 		
-		_left_talon.configEncoderCodesPerRev(1900);
+		_left_talon.configEncoderCodesPerRev(425);
 		_left_talon.reverseSensor(true);
 
 		/* call this periodically, and catch the output.  Only apply it if user wants to run MP. */
 		_right_example.control();
 		 
-		_right_talon.configEncoderCodesPerRev(1900);
+		_right_talon.configEncoderCodesPerRev(425);
 		_right_talon.reverseSensor(true);
 		_right_talon.reverseOutput(true);
 		
@@ -143,7 +143,7 @@ public class Robot extends IterativeRobot {
 
 
 		if( (btns[1] == true) && (_btnsLast[1] == false) ) {
-			planner.generateProfileFromDistances(20000, 2, 5);
+			planner.generateProfileFromDistances(20000, 8, 15);
 		}
 		
 		/* save buttons states for on-press detection */
